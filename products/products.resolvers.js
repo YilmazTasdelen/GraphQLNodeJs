@@ -11,6 +11,11 @@ module.exports = {
         product: (_, args) => {
             return productsModel.getProductById(args.id);
         }
+    },
+    Mutation: {
+        addNewProduct: (_, args) => {
+            return productsModel.addNewProduct(args.id, args.description, args.price);
+        }
     }
 };
 
@@ -86,6 +91,18 @@ productsByPrice(min: 10, max: 50) {
       }
     }
   }
+}
+example mutations
+1-
+----------------------------------------------
+mutation{
+    addNewProduct(id:"orangejacket",description:"",price:70.55)
+    {// this is the return statement
+        id
+        reviews{
+            rating
+        }
+    }
 }
  * 
  * 
