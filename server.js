@@ -8,6 +8,7 @@ const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 // check any directory or sub directory with file type .graphql
 const typesArray = loadFilesSync(path.join(__dirname, '**/*.graphql'));
+const resolversArray = loadFilesSync(path.join(__dirname, '**/*.resolvers.js'));
 
 /*
 we use this over buildSchema now because 
@@ -16,19 +17,7 @@ we  are able to split our schema to smaller parts.
 */
 const schema = makeExecutableSchema({
     typeDefs: typesArray,
-    resolvers: {
-        Query: {
-            products: async (parent) => {
-                console.log('Getting the products...');
-                const product = await Promise.resolve(parent.products);
-                return product;
-            },
-            orders: (parent) => {
-                console.log('Getting orders...');
-                return parent.orders;
-            },
-        }
-    }
+    resolvers: resolversArray,
 })
 
 
@@ -42,7 +31,7 @@ const app = express();
 
 app.use('/graphql', graphqlHTTP({
     schema: schema,
-    rootValue: root,
+    //rootValue: root, //we dont need root after reorganize resolvers and get data from schema
     graphiql: true,
 }));
 
