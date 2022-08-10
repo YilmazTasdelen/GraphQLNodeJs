@@ -15,6 +15,9 @@ module.exports = {
     Mutation: {
         addNewProduct: (_, args) => {
             return productsModel.addNewProduct(args.id, args.description, args.price);
+        },
+        addNewProductReview: (_, args) => {
+            return productsModel.addNewProductReview(args.id, args.rating, args.comment);
         }
     }
 };
@@ -102,6 +105,27 @@ mutation{
         reviews{
             rating
         }
+    }
+}
+2-
+--------------------------------------------------
+// for the addd review mutation there is two insert
+// we will see to different mutation response 
+// to seperate these 2 mutation response set the alias to differantiate them
+mutation{
+    addNewProduct(id:"orangejacket",description:"",price:70.55)
+    {// this is the return statement
+        id
+        reviews{
+            rating
+        }
+    }
+   shoeReview: addNewProductReview(id:"redshoe",rating:4,description:"test review"){
+        rating
+    }
+
+   jacketReview:  addNewProductReview(id:"orangejacket",rating:4,description:"test review"){
+        rating
     }
 }
  * 
